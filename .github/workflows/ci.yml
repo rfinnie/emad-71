@@ -1,0 +1,14 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: make
+      run: make
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: emad-71-dist-${{ github.job }}-${{ github.run_id }}.${{ github.run_number }}
+        path: emad.bas

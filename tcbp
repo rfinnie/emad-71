@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+
+# SPDX-FileComment: tcbp - The cruel BASIC preprocessor
+# SPDX-FileCopyrightText: Copyright (C) 2021 Ryan Finnie
+# SPDX-License-Identifier: MPL-2.0
+
+import random
+import sys
+
+LINE_MIN = 1
+LINE_MAX = 20
+
+if __name__ == "__main__":
+    outbuf = []
+    posmaps = []
+    lineno = random.randint(LINE_MIN, LINE_MAX)
+
+    for line in sys.stdin:
+        line = line.rstrip()
+        if not line:
+            continue
+        if line.startswith("@"):
+            posmaps.append((lineno, line))
+            continue
+        outbuf.append((lineno, line))
+        lineno += random.randint(LINE_MIN, LINE_MAX)
+
+    for lineno, line in outbuf:
+        for mapline, mapname in posmaps:
+            line = line.replace(mapname, str(mapline))
+        print("{} {}".format(lineno, line))
